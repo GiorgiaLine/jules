@@ -95,6 +95,8 @@ TYPE :: trifctl_data_type
     ! in the SOX stomatal model (MPa)
   REAL(KIND=real_jlslsm), ALLOCATABLE :: psi_root_zone_pft(:,:)
     ! (Negative) soil water potential in the root zone (Pa)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: p_supply(:)
+    ! Gridbox P supply
 END TYPE
 
 !===============================================================================
@@ -131,6 +133,7 @@ TYPE :: trifctl_type
   REAL(KIND=real_jlslsm), POINTER :: growth_sug_pft(:,:)
   REAL(KIND=real_jlslsm), POINTER :: lwp_c_pft(:,:)
   REAL(KIND=real_jlslsm), POINTER :: psi_root_zone_pft(:,:)
+  REAL(KIND=real_jlslsm), POINTER :: p_supply(:)
 END TYPE
 
 CONTAINS
@@ -190,6 +193,7 @@ ALLOCATE(trifctl_data%growth_sug_gb(land_pts))
 ALLOCATE(trifctl_data%growth_sug_pft(land_pts,npft))
 ALLOCATE(trifctl_data%lwp_c_pft(land_pts,npft))
 ALLOCATE(trifctl_data%psi_root_zone_pft(land_pts,npft))
+ALLOCATE(trifctl_data%p_supply(land_pts))
 
 trifctl_data%g_leaf_acc_pft(:,:)       = 0.0
 trifctl_data%npp_acc_pft(:,:)          = 0.0
@@ -221,6 +225,7 @@ trifctl_data%growth_sug_gb(:)          = 0.0
 trifctl_data%growth_sug_pft(:,:)       = 0.0
 trifctl_data%lwp_c_pft(:,:)            = 0.0
 trifctl_data%psi_root_zone_pft(:,:)    = 0.0
+trifctl_data%p_supply(:)               = 0.0
 
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
@@ -281,6 +286,7 @@ DEALLOCATE(trifctl_data%growth_sug_gb)
 DEALLOCATE(trifctl_data%growth_sug_pft)
 DEALLOCATE(trifctl_data%lwp_c_pft)
 DEALLOCATE(trifctl_data%psi_root_zone_pft)
+DEALLOCATE(trifctl_data%p_supply)
 
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
@@ -347,6 +353,7 @@ trifctl%growth_sug_gb        => trifctl_data%growth_sug_gb
 trifctl%growth_sug_pft       => trifctl_data%growth_sug_pft
 trifctl%lwp_c_pft            => trifctl_data%lwp_c_pft
 trifctl%psi_root_zone_pft    => trifctl_data%psi_root_zone_pft
+trifctl%p_supply => trifctl_data%p_supply
 
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
@@ -408,6 +415,7 @@ NULLIFY(trifctl%growth_sug_gb)
 NULLIFY(trifctl%growth_sug_pft)
 NULLIFY(trifctl%lwp_c_pft)
 NULLIFY(trifctl%psi_root_zone_pft)
+NULLIFY(trifctl%p_supply)
 
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
