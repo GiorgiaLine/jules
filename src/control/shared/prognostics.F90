@@ -190,6 +190,35 @@ TYPE :: progs_data_type
   ! photosynthetic capacity (K).
   REAL(KIND=real_jlslsm), ALLOCATABLE :: f_nsc_pft(:,:)
     ! Non-structural carbohydrate mass fraction (kgC/kgC)
+  ! P Vars
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: p_inorg_soilt_lyrs(:,:,:)
+    ! Gridbox Inorganic P pool on soil levels (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: p_inorg_gb(:)
+    ! Gridbox Inorganic P pool (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: ps_pool_gb(:,:)
+    !  Soil Organic Phosphorus (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: ps_parent_gb(:,:)
+    !  Soil parent material Phosphorus (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: ps_in_sorbed_pool_gb(:,:)
+    !  Soil Inorganic sorbed Phosphorus (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: ps_or_sorbed_pool_gb(:,:,:)
+    !  Soil Organic sorbed Phosphorus (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: p_inorg_avail_pft(:,:,:)
+    ! Available inorganic P for PFTs (depends on roots) (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: ps_org_pool(:,:,:)
+    !  Organic Phosphorus Pool(kg P/m2)
+    !  If dim_cs1=1, there is a single soil P pool.
+    !  If dim_cs1=4, the pools are:
+    !  1  decomposable plant material
+    !  2  resistant plant material
+    !  3  biomass
+    !  4  humus
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: ps_occ_pool_gb(:,:)
+    !  Occluded inorganic Soil Phosphorus (kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: ps_lab_pool_gb(:,:)
+    !  Soil Phosphorus labile(kg P/m2)
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: plant_p_pool_gb(:)
+    ! Plant Phosphorus (kg P/m2)
 
 END TYPE
 
@@ -254,6 +283,20 @@ TYPE :: progs_type
   REAL(KIND=real_jlslsm), POINTER :: t_home_gb(:)
   REAL(KIND=real_jlslsm), POINTER :: t_growth_gb(:)
   REAL(KIND=real_jlslsm), POINTER :: f_nsc_pft(:,:)
+
+  ! P Vars
+  REAL(KIND=real_jlslsm), POINTER :: p_inorg_soilt_lyrs(:,:,:)
+  REAL(KIND=real_jlslsm), POINTER :: p_inorg_gb(:)
+  REAL(KIND=real_jlslsm), POINTER :: p_inorg_avail_pft(:,:,:)
+  REAL(KIND=real_jlslsm), POINTER :: ps_pool_gb(:,:)
+  REAL(KIND=real_jlslsm), POINTER :: ps_parent_gb(:,:)
+  REAL(KIND=real_jlslsm), POINTER :: ps_in_sorbed_pool_gb(:,:)
+  REAL(KIND=real_jlslsm), POINTER :: ps_or_sorbed_pool_gb(:,:,:)
+  REAL(KIND=real_jlslsm), POINTER :: ps_org_pool(:,:,:)
+  REAL(KIND=real_jlslsm), POINTER :: ps_occ_pool_gb(:,:)
+  REAL(KIND=real_jlslsm), POINTER :: ps_lab_pool_gb(:,:)
+  REAL(KIND=real_jlslsm), POINTER :: plant_p_pool_gb(:)
+
 END TYPE
 
 LOGICAL :: l_broadcast_soilt = .FALSE.
@@ -498,6 +541,31 @@ progs_data%snow_grnd_surft(:,:)       = 0.0
 progs_data%snow_mass_ij(:,:)          = 0.0
 progs_data%snow_mass_sea_sicat(:,:,:) = 0.0
 
+! P Vars
+ALLOCATE(progs_data%p_inorg_gb(land_pts))
+ALLOCATE(progs_data%ps_pool_gb(land_pts,dim_cslayer))
+ALLOCATE(progs_data%p_inorg_soilt_lyrs(land_pts,nsoilt,dim_cslayer))
+ALLOCATE(progs_data%p_inorg_avail_pft(land_pts,npft,dim_cslayer))
+ALLOCATE(progs_data%ps_parent_gb(land_pts,dim_cslayer))
+ALLOCATE(progs_data%ps_in_sorbed_pool_gb(land_pts,dim_cslayer))
+ALLOCATE(progs_data%ps_or_sorbed_pool_gb(land_pts,dim_cslayer,dim_cs1))
+ALLOCATE(progs_data%ps_org_pool(land_pts,dim_cslayer,dim_cs1))
+ALLOCATE(progs_data%ps_occ_pool_gb(land_pts,dim_cslayer))
+ALLOCATE(progs_data%ps_lab_pool_gb(land_pts,dim_cslayer))
+ALLOCATE(progs_data%plant_p_pool_gb(land_pts))
+
+progs_data%ps_pool_gb(:,:)             = 0.001
+progs_data%p_inorg_soilt_lyrs(:,:,:)   = 0.0
+progs_data%p_inorg_gb(:)               = 0.0
+progs_data%p_inorg_avail_pft(:,:,:)    = 0.0
+progs_data%ps_parent_gb(:,:)           = 0.0
+progs_data%ps_in_sorbed_pool_gb(:,:)   = 0.0
+progs_data%ps_or_sorbed_pool_gb(:,:,:) = 0.0
+progs_data%ps_org_pool(:,:,:)          = 0.001
+progs_data%ps_occ_pool_gb(:,:)         = 0.0
+progs_data%ps_lab_pool_gb(:,:)         = 0.0
+progs_data%plant_p_pool_gb(:)          = 0.0
+
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
 END SUBROUTINE prognostics_alloc
@@ -602,6 +670,19 @@ DEALLOCATE(progs_data%snow_mass_ij)
 DEALLOCATE(progs_data%snow_mass_sea_sicat)
 DEALLOCATE(progs_data%plantNumDensity)
 
+! P Vars
+DEALLOCATE(progs_data%ps_pool_gb)
+DEALLOCATE(progs_data%p_inorg_gb)
+DEALLOCATE(progs_data%p_inorg_soilt_lyrs)
+DEALLOCATE(progs_data%p_inorg_avail_pft)
+DEALLOCATE(progs_data%ps_parent_gb)
+DEALLOCATE(progs_data%ps_in_sorbed_pool_gb)
+DEALLOCATE(progs_data%ps_or_sorbed_pool_gb)
+DEALLOCATE(progs_data%ps_org_pool)
+DEALLOCATE(progs_data%ps_occ_pool_gb)
+DEALLOCATE(progs_data%ps_lab_pool_gb)
+DEALLOCATE(progs_data%plant_p_pool_gb)
+
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
 END SUBROUTINE prognostics_dealloc
@@ -695,6 +776,19 @@ IF (ALLOCATED(progs_data%seed_rain)) THEN
   progs%seed_rain => progs_data%seed_rain
 END IF
 
+! P Vars
+progs%ps_pool_gb => progs_data%ps_pool_gb
+progs%p_inorg_gb => progs_data%p_inorg_gb
+progs%p_inorg_soilt_lyrs => progs_data%p_inorg_soilt_lyrs
+progs%p_inorg_avail_pft => progs_data%p_inorg_avail_pft
+progs%ps_parent_gb => progs_data%ps_parent_gb
+progs%ps_in_sorbed_pool_gb => progs_data%ps_in_sorbed_pool_gb
+progs%ps_or_sorbed_pool_gb => progs_data%ps_or_sorbed_pool_gb
+progs%ps_org_pool => progs_data%ps_org_pool
+progs%ps_occ_pool_gb => progs_data%ps_occ_pool_gb
+progs%ps_lab_pool_gb => progs_data%ps_lab_pool_gb
+progs%plant_p_pool_gb => progs_data%plant_p_pool_gb
+
 
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
@@ -781,6 +875,19 @@ NULLIFY(progs%years_since_harvest)
 NULLIFY(progs%t_home_gb)
 NULLIFY(progs%t_growth_gb)
 NULLIFY(progs%f_nsc_pft)
+
+! P Vars
+NULLIFY(progs%ps_pool_gb)
+NULLIFY(progs%p_inorg_gb)
+NULLIFY(progs%p_inorg_soilt_lyrs)
+NULLIFY(progs%p_inorg_avail_pft)
+NULLIFY(progs%ps_parent_gb)
+NULLIFY(progs%ps_in_sorbed_pool_gb)
+NULLIFY(progs%ps_or_sorbed_pool_gb)
+NULLIFY(progs%ps_org_pool)
+NULLIFY(progs%ps_occ_pool_gb)
+NULLIFY(progs%ps_lab_pool_gb)
+NULLIFY(progs%plant_p_pool_gb)
 
 IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
