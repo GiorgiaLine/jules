@@ -318,6 +318,81 @@ CASE ( 'clay_const_z_soilt' ) ! No levels, with tiles
   END IF
   !=== End cases for clay ===
 
+  !=== Start cases for stype ===
+CASE ( 'stype' )  ! With levels, no tiles
+  IF ( PRESENT(cube) ) THEN
+    IF ( l_tile_soil .AND. l_broadcast_ancils) THEN
+      ! Spread around soilt dim.
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, psparms%stype_soilt(:,1,1:dim_cslayer))
+      psparms%stype_soilt(:,:,:) = SPREAD(psparms%stype_soilt(:,1,:), 2, nsoilt)
+    ELSE IF ( .NOT. l_tile_soil ) THEN
+      ! Do nothing special.
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, psparms%stype_soilt(:,1,1:dim_cslayer))
+    ELSE
+      CALL log_fatal("populate_var",                                           &
+                     "Cannot populate stype - failure in logic")
+    END IF
+  ELSE
+    psparms%stype_soilt(:,:,:) = const_val
+  END IF
+
+CASE ( 'stype_const_z' )  ! No levels, no tiles
+  IF ( PRESENT(cube) ) THEN
+    IF ( l_tile_soil .AND. l_broadcast_ancils) THEN
+      ! Spread around soilt and layer dims
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, psparms%stype_soilt(:,1,1))
+      psparms%stype_soilt(:,1,1:dim_cslayer) = SPREAD(psparms%stype_soilt(:,1,1), 2, &
+                                             dim_cslayer)
+      psparms%stype_soilt(:,:,:)   = SPREAD(psparms%stype_soilt(:,1,:), 2,     &
+                                             nsoilt)
+    ELSE IF ( .NOT. l_tile_soil ) THEN
+      ! Copy the values from the first vertical level to all others
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, psparms%stype_soilt(:,1,1))
+      psparms%stype_soilt(:,1,1:dim_cslayer) = SPREAD(psparms%stype_soilt(:,1,1), 2, &
+                                             dim_cslayer)
+    ELSE
+      CALL log_fatal("populate_var",                                           &
+                     "Cannot populate stype_const_z - failure in logic")
+    END IF
+  ELSE
+    psparms%stype_soilt(:,:,:) = const_val
+  END IF
+
+CASE ( 'stype_soilt' )  ! With levels, with tiles
+  IF ( PRESENT(cube) ) THEN
+    IF ( l_tile_soil .AND. .NOT. l_broadcast_ancils) THEN
+       ! Do nothing special
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, psparms%stype_soilt(:,:,:))
+    ELSE
+      CALL log_fatal("populate_var",                                           &
+                     "Cannot populate stype_soilt- failure in logic")
+    END IF
+  ELSE
+    psparms%stype_soilt(:,:,:) = const_val
+  END IF
+
+CASE ( 'stype_const_z_soilt' ) ! No levels, with tiles
+  IF ( PRESENT(cube) ) THEN
+    IF ( l_tile_soil .AND. .NOT. l_broadcast_ancils) THEN
+       !Spread around layer dim
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, psparms%stype_soilt(:,1:nsoilt,1))
+      psparms%stype_soilt(:,:,:) = SPREAD(psparms%stype_soilt(:,:,1), 3, dim_cslayer)
+    ELSE
+      CALL log_fatal("populate_var",                                           &
+                     "Cannot populate stype_const_z_soilt- failure in logic")
+    END IF
+  ELSE
+    psparms%stype_soilt(:,:,:) = const_val
+  END IF
+
+  !=== End cases for stype ===
+
   !=== Start cases for b ===
 CASE ( 'b' )  !With levels, no tiles
   IF ( PRESENT(cube) ) THEN
@@ -1544,6 +1619,84 @@ CASE ( 'ns' )
     CALL cube_get_data(cube_land, progs%ns_pool_gb)
   ELSE
     progs%ns_pool_gb(:,:,:) = const_val
+  END IF
+
+CASE ( 'p_inorg' )
+  IF ( PRESENT(cube) ) THEN
+    IF ( l_tile_soil .AND. l_broadcast_soilt) THEN
+      !Spread around soilt dim
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, progs%p_inorg_soilt_lyrs(:,1,:))
+      progs%p_inorg_soilt_lyrs(:,:,:) =                                        &
+        SPREAD(progs%p_inorg_soilt_lyrs(:,1,:), 2, nsoilt)
+    ELSE IF ( .NOT. l_tile_soil ) THEN
+      !Do nothing special
+      cube_land = map_to_land(cube)
+      CALL cube_get_data(cube_land, progs%p_inorg_soilt_lyrs(:,1,:))
+    ELSE
+      CALL log_fatal("populate_var",                                           &
+                     "Cannot populate p_inorg- failure in logic")
+    END IF
+  ELSE
+    progs%p_inorg_soilt_lyrs(:,:,:) = const_val
+  END IF
+
+CASE ( 'p_inorg_avail_pft' )
+  IF ( PRESENT(cube) ) THEN
+    cube_land = map_to_land(cube)
+    CALL cube_get_data(cube_land, progs%p_inorg_avail_pft)
+  ELSE
+    progs%p_inorg_avail_pft(:,:,:) = const_val
+  END IF
+
+CASE ( 'ps_par' )
+  IF ( PRESENT(cube) ) THEN
+    cube_land = map_to_land(cube)
+    CALL cube_get_data(cube_land, progs%ps_parent_gb)
+  ELSE
+    progs%ps_parent_gb(:,:) = const_val
+  END IF
+
+CASE ( 'ps_in_sorbed' )
+  IF ( PRESENT(cube) ) THEN
+    cube_land = map_to_land(cube)
+    CALL cube_get_data(cube_land, progs%ps_in_sorbed_pool_gb)
+  ELSE
+    progs%ps_in_sorbed_pool_gb(:,:) = const_val
+  END IF
+
+CASE ( 'ps_or_sorbed' )
+  IF ( PRESENT(cube) ) THEN
+    cube_land = map_to_land(cube)
+    CALL cube_get_data(cube_land, progs%ps_or_sorbed_pool_gb)
+  ELSE
+    progs%ps_or_sorbed_pool_gb(:,:,:) = const_val
+  END IF
+
+CASE ( 'ps_occ' )
+  IF ( PRESENT(cube) ) THEN
+    cube_land = map_to_land(cube)
+    CALL cube_get_data(cube_land, progs%ps_occ_pool_gb)
+  ELSE
+    progs%ps_occ_pool_gb(:,:) = const_val
+    !    PRINT *, 'ps_occ const_val = ', const_val
+    !    STOP 'DEBUG: Stopping after ps_occ debug print'
+  END IF
+
+CASE ( 'ps_org' )
+  IF ( PRESENT(cube) ) THEN
+    cube_land = map_to_land(cube)
+    CALL cube_get_data(cube_land, progs%ps_org_pool)
+  ELSE
+    progs%ps_org_pool(:,:,:) = const_val
+  END IF
+
+CASE ( 'plant_p_pool' )
+  IF ( PRESENT(cube) ) THEN
+    cube_land = map_to_land(cube)
+    CALL cube_get_data(cube_land, progs%plant_p_pool_gb)
+  ELSE
+    progs%plant_p_pool_gb(:) = const_val
   END IF
 
 CASE ( 'deposition_n' )

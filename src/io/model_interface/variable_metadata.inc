@@ -9367,4 +9367,1119 @@ DATA metadata(723) / var_metadata(                                             &
 ! Units
     "kg m-2 s-1"                                                               &
   ) /
+!-----------------------------------------------------------------------------
+! Metadata for minl_p_gb
+!-----------------------------------------------------------------------------
+DATA metadata(724) / var_metadata(                                             &
+! String identifier
+    'minl_p_gb',                                                               &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox mean potential soil P mineralisation",                            &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for immob_p_gb
+!-----------------------------------------------------------------------------
+DATA metadata(725) / var_metadata(                                             &
+! String identifier
+    'immob_p_gb',                                                              &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox mean potential soil P immobilisation",                            &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps
+!-----------------------------------------------------------------------------
+DATA metadata(726) / var_metadata(                                             &
+! String identifier
+    'ps',                                                                      &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox soil inorganic Phosphorus",                                       &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for f_up
+!-----------------------------------------------------------------------------
+DATA metadata(727) / var_metadata(                                             &
+! String identifier
+    'f_up',                                                                    &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox mean plant P uptake",                                             &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_occ
+!-----------------------------------------------------------------------------
+DATA metadata(728) / var_metadata(                                             &
+! String identifier
+    'ps_occ',                                                                  &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox soil Occluded Phosphorus",                                        &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_lab
+!-----------------------------------------------------------------------------
+DATA metadata(729) / var_metadata(                                             &
+! String identifier
+    'ps_lab',                                                                  &
+! Variable type
+   var_type_soil,                                                              &
+! Long name
+    "Gridbox soil labile Phosphorus ",                                         &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_org
+!-----------------------------------------------------------------------------
+DATA metadata(730) / var_metadata(                                             &
+! String identifier
+    'ps_org',                                                                  &
+! Variable type
+    var_type_scpool,                                                           &
+! Long name
+    "Gridbox Organic Phosphorus in each pool (DPM,RPM,bio,hum)",               &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_org_gb
+!-----------------------------------------------------------------------------
+DATA metadata(731) / var_metadata(                                             &
+! String identifier
+    'ps_org_gb',                                                               &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox Organic Phosphorus (Total)",                                      &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_in_sorbed
+!-----------------------------------------------------------------------------
+DATA metadata(732) / var_metadata(                                             &
+! String identifier
+    'ps_in_sorbed',                                                            &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox Adsorped inorganic Phosphorus (Total)",                           &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for ps_or_sorbed
+!-----------------------------------------------------------------------------
+DATA metadata(733) / var_metadata(                                             &
+! String identifier
+    'ps_or_sorbed',                                                            &
+! Variable type
+    var_type_scpool,                                                           &
+! Long name
+    "Gridbox Adsorped organic Phosphorus (Total)",                             &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for plant_p_pool
+!-----------------------------------------------------------------------------
+DATA metadata(734) / var_metadata(                                             &
+! String identifier
+    'plant_p_pool',                                                            &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox vegetation Phosphorus pool (Total)",                              &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_par
+!-----------------------------------------------------------------------------
+DATA metadata(735) / var_metadata(                                             &
+! String identifier
+    'ps_par',                                                                  &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox soil Parent Material Phosphorus",                                 &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_out
+!-----------------------------------------------------------------------------
+DATA metadata(736) / var_metadata(                                             &
+! String identifier
+    'ps_out',                                                                  &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_or_out
+!-----------------------------------------------------------------------------
+DATA metadata(737) / var_metadata(                                             &
+! String identifier
+    'ps_or_out',                                                               &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "Kg P m-2"                                                                 &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_par_out
+!-----------------------------------------------------------------------------
+DATA metadata(738) / var_metadata(                                             &
+! String identifier
+    'ps_par_out',                                                              &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "Kg P m-2"                                                                 &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_occ_out
+!-----------------------------------------------------------------------------
+DATA metadata(739) / var_metadata(                                             &
+! String identifier
+    'ps_occ_out',                                                              &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "Kg P m-2"                                                                 &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for ps_in_out
+!-----------------------------------------------------------------------------
+DATA metadata(740) / var_metadata(                                             &
+! String identifier
+    'ps_in_out',                                                               &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox inorg sorbed soil Phosphorus",                                    &
+! Units
+    "Kg P m-2"                                                                 &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for ps_out_5cm
+!-----------------------------------------------------------------------------
+DATA metadata(741) / var_metadata(                                             &
+! String identifier
+    'ps_out_5cm',                                                              &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for ps_or_out_5cm
+!-----------------------------------------------------------------------------
+DATA metadata(742) / var_metadata(                                             &
+! String identifier
+    'ps_or_out_5cm',                                                           &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for ps_in_out_5cm
+!-----------------------------------------------------------------------------
+DATA metadata(743) / var_metadata(                                             &
+! String identifier
+    'ps_in_out_5cm',                                                           &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for ps_par_out_5cm
+!-----------------------------------------------------------------------------
+DATA metadata(744) / var_metadata(                                             &
+! String identifier
+    'ps_par_out_5cm',                                                          &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for ps_occ_out_5cm
+!-----------------------------------------------------------------------------
+DATA metadata(745) / var_metadata(                                             &
+! String identifier
+    'ps_occ_out_5cm',                                                          &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus",                                                 &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for ps_or_p_out
+!-----------------------------------------------------------------------------
+DATA metadata(746) / var_metadata(                                             &
+! String identifier
+    'ps_or_p_out',                                                             &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Organic Phosphorus",                                         &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for ps_or_p_out_5cm
+!-----------------------------------------------------------------------------
+DATA metadata(747) / var_metadata(                                             &
+! String identifier
+    'ps_or_p_out_5cm',                                                         &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox soil Phosphorus 10cm",                                            &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for fn_out
+!-----------------------------------------------------------------------------
+DATA metadata(748) / var_metadata(                                             &
+! String identifier
+    'fn_out',                                                                  &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox N limting factor",                                                &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for fp_out
+!-----------------------------------------------------------------------------
+DATA metadata(749) / var_metadata(                                             &
+! String identifier
+    'fp_out',                                                                  &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox P limting factor",                                                &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for f_up_gb
+!-----------------------------------------------------------------------------
+DATA metadata(750) / var_metadata(                                             &
+! String identifier
+    'f_up_gb',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P plant uptake avg. over 4 layers",                               &
+! Units
+    "g P m-2"                                                                  &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_litter_flux
+!-----------------------------------------------------------------------------
+DATA metadata(751) / var_metadata(                                             &
+! String identifier
+    'p_litter_flux',                                                           &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox mean plant litter P",                                             &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for cnsrv_phosphorus_triffid
+!-----------------------------------------------------------------------------
+DATA metadata(752) / var_metadata(                                             &
+! String identifier
+    'cnsrv_phosphorus_triffid',                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "error in land phosphorus conservation in triffid routine",                &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for cnsrv_vegP_triffid
+!-----------------------------------------------------------------------------
+DATA metadata(753) / var_metadata(                                             &
+! String identifier
+    'cnsrv_vegP_triffid',                                                      &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "error in vegetation phosphorus conservation in triffid routine",          &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for cnsrv_soilP_triffid
+!-----------------------------------------------------------------------------
+DATA metadata(754) / var_metadata(                                             &
+! String identifier
+    'cnsrv_soilP_triffid',                                                     &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "error in soil phosphorus conservation in triffid routine",                &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for cnsrv_P_inorg_triffid
+!-----------------------------------------------------------------------------
+DATA metadata(755) / var_metadata(                                             &
+! String identifier
+    'cnsrv_P_inorg_triffid',                                                   &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "error in inorganic phosphorus conservation in triffid routine",           &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_inorg_sorp_f
+!-----------------------------------------------------------------------------
+DATA metadata(756) / var_metadata(                                             &
+! String identifier
+    'p_inorg_sorp_f',                                                          &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox mean inorg P sorbed",                                             &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_inorg_desorp_f
+!-----------------------------------------------------------------------------
+DATA metadata(757) / var_metadata(                                             &
+! String identifier
+    'p_inorg_desorp_f',                                                        &
+! Variable type
+    var_type_soil,                                                             &
+! Long name
+    "Gridbox mean inorg P desorbed",                                           &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_org_sorp_f
+!-----------------------------------------------------------------------------
+DATA metadata(758) / var_metadata(                                             &
+! String identifier
+    'p_org_sorp_f',                                                            &
+! Variable type
+    var_type_scpool,                                                           &
+! Long name
+    "Gridbox mean org P sorbed",                                               &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_org_desorp_f
+!-----------------------------------------------------------------------------
+DATA metadata(759) / var_metadata(                                             &
+! String identifier
+    'p_org_desorp_f',                                                          &
+! Variable type
+    var_type_scpool,                                                           &
+! Long name
+    "Gridbox mean org P desorbed",                                             &
+! Units
+    "Kg m-2 per 360 days"                                                      &
+  ) /
+
+!-----------------------------------------------------------------------------
+
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_in_ts
+!-----------------------------------------------------------------------------
+DATA metadata(760) / var_metadata(                                             &
+! String identifier
+    'p_in_ts',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for cn_in_ts
+!-----------------------------------------------------------------------------
+DATA metadata(761) / var_metadata(                                             &
+! String identifier
+    'cn_in_ts',                                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for minl_ts
+!-----------------------------------------------------------------------------
+DATA metadata(762) / var_metadata(                                             &
+! String identifier
+    'minl_ts',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for immob_ts
+!-----------------------------------------------------------------------------
+DATA metadata(763) / var_metadata(                                             &
+! String identifier
+    'immob_ts',                                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_up_ts
+!-----------------------------------------------------------------------------
+DATA metadata(764) / var_metadata(                                             &
+! String identifier
+    'p_up_ts',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_or_ts
+!-----------------------------------------------------------------------------
+DATA metadata(765) / var_metadata(                                             &
+! String identifier
+    'p_or_ts',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for cn_or_ts
+!-----------------------------------------------------------------------------
+DATA metadata(766) / var_metadata(                                             &
+! String identifier
+    'cn_or_ts',                                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for lit_p_ts
+!-----------------------------------------------------------------------------
+DATA metadata(767) / var_metadata(                                             &
+! String identifier
+    'lit_p_ts',                                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_v_ts
+!-----------------------------------------------------------------------------
+DATA metadata(768) / var_metadata(                                             &
+! String identifier
+    'p_v_ts',                                                                  &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for cs_v_ts
+!-----------------------------------------------------------------------------
+DATA metadata(769) / var_metadata(                                             &
+! String identifier
+    'cs_v_ts',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P flux & pool for check",                                         &
+! Units
+    "Kg P m-2 360 days"                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for lit_p_t
+!-----------------------------------------------------------------------------
+DATA metadata(770) / var_metadata(                                             &
+! String identifier
+    'lit_p_t',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Total PHOSPHORUS LITTER",                                                 &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_uptake
+!-----------------------------------------------------------------------------
+DATA metadata(771) / var_metadata(                                             &
+! String identifier
+    'p_uptake',                                                                &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "Total P UPTAKE by plants (PFTs)",                                         &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for P_uptake_gb
+!-----------------------------------------------------------------------------
+DATA metadata(772) / var_metadata(                                             &
+! String identifier
+    'p_uptake_gb',                                                             &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Total P UPTAKE by plants (GBM)",                                          &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_uptake_growth
+!-----------------------------------------------------------------------------
+DATA metadata(773) / var_metadata(                                             &
+! String identifier
+    'p_uptake_growth',                                                         &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "P TAKEN UP FOR GROWTH of existing plant biomass",                         &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_demand_growth
+!-----------------------------------------------------------------------------
+DATA metadata(774) / var_metadata(                                             &
+! String identifier
+    'p_demand_growth',                                                         &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "Demand for P for GROWTH of existing plant biomass",                       &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_demand_spread
+!-----------------------------------------------------------------------------
+DATA metadata(775) / var_metadata(                                             &
+! String identifier
+    'p_demand_spread',                                                         &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "Demand for P for SPREADING plant across gridbox",                         &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_demand_lit
+!-----------------------------------------------------------------------------
+DATA metadata(776) / var_metadata(                                             &
+! String identifier
+    'p_demand_lit',                                                            &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "P demand of litter: N lost in leaf, wood, root biomass",                  &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for dpveg
+!-----------------------------------------------------------------------------
+DATA metadata(777) / var_metadata(                                             &
+! String identifier
+    'dpveg',                                                                   &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "Increment in vegetation P content (PFTs)",                                &
+! Units
+    "kg/m2/TRIFFID TIMESTEP"                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for dpveg_gb
+!-----------------------------------------------------------------------------
+DATA metadata(778) / var_metadata(                                             &
+! String identifier
+    'dpveg_gb',                                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Increment in vegetation P content (GBM)",                                 &
+! Units
+    "kg/m2/TRIFFID TIMESTEP"                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_demand_gb
+!-----------------------------------------------------------------------------
+DATA metadata(779) / var_metadata(                                             &
+! String identifier
+    'p_demand_gb',                                                             &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Demand for P in total (GBM)",                                             &
+! Units
+    "kg/m2/360 DAYS"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_demand
+!-----------------------------------------------------------------------------
+DATA metadata(780) / var_metadata(                                             &
+! String identifier
+    'p_demand',                                                                &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "Demand for P in total (PFTs)",                                            &
+! Units
+    "kg/m2/360 DAYS"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_veg
+!-----------------------------------------------------------------------------
+DATA metadata(781) / var_metadata(                                             &
+! String identifier
+    'p_veg',                                                                   &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "Plant P content (PFTs): N_LEAF+N_ROOT+N_WOOD from C equivalents",         &
+! Units
+    "kg/m2"                                                                    &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_veg_gb
+!-----------------------------------------------------------------------------
+DATA metadata(782) / var_metadata(                                             &
+! String identifier
+    'p_veg_gb',                                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Plant P content (GBM): N_LEAF+N_ROOT+N_WOOD from C equivalents",          &
+! Units
+    "kg/m2"                                                                    &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_supply
+!-----------------------------------------------------------------------------
+DATA metadata(783) / var_metadata(                                             &
+! String identifier
+    'p_supply',                                                                &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P supply",                                                        &
+! Units
+    "Kg P m-2 per TRIFFID"                                                     &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_tot
+!-----------------------------------------------------------------------------
+DATA metadata(784) / var_metadata(                                             &
+! String identifier
+    'p_tot',                                                                   &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox total P",                                                         &
+! Units
+    "Kg P m-2 per Yr"                                                          &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_tot2
+!-----------------------------------------------------------------------------
+DATA metadata(785) / var_metadata(                                             &
+! String identifier
+    'p_tot2',                                                                  &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox total P",                                                         &
+! Units
+    "Kg P m-2 per Yr"                                                          &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_inorg_avail_pft
+!-----------------------------------------------------------------------------
+DATA metadata(786) / var_metadata(                                             &
+! String identifier
+     'p_inorg_avail_pft',                                                      &
+! Variable type
+     var_type_pft_sclayer,                                                     &
+! Long name
+     "Inorganic P pool that is available for plant uptake",                    &
+! Units
+     "kg m-2"                                                                  &
+   ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_uptake_extract_gb
+!-----------------------------------------------------------------------------
+DATA metadata(787) / var_metadata(                                             &
+! String identifier
+     'p_uptake_extract_gb',                                                    &
+! Variable type
+     var_type_surface,                                                         &
+! Long name
+     "Inorganic P pool that is available for plant uptake",                    &
+! Units
+     "kg m-2"                                                                  &
+   ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_inorg
+!-----------------------------------------------------------------------------
+DATA metadata(788) / var_metadata(                                             &
+! String identifier
+    'p_inorg',                                                                 &
+! Variable type
+    var_type_sclayer,                                                          &
+! Long name
+    "Inorganic P Pool",                                                        &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_fertiliser
+!-----------------------------------------------------------------------------
+DATA metadata(789) / var_metadata(                                             &
+! String identifier
+    'p_fertiliser',                                                            &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "P addition from fertiliser",                                              &
+! Units
+    "kg P  m-2 per 360days"                                                    &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_fertiliser_gb
+!-----------------------------------------------------------------------------
+DATA metadata(790) / var_metadata(                                             &
+! String identifier
+    'p_fertiliser_gb',                                                         &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Gridbox P addition from fertiliser",                                      &
+! Units
+    "kg P  m-2 per 360days"                                                    &
+  ) /
+ !-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for vcm_out
+!-----------------------------------------------------------------------------
+DATA metadata(791) / var_metadata(                                             &
+! String identifier
+    'vcm_out',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "vcmax",                                                                   &
+! Units
+    "m-2 per 360days"                                                          &
+  ) /
+ !-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for p_avail_out
+!-----------------------------------------------------------------------------
+DATA metadata(792) / var_metadata(                                             &
+! String identifier
+    'p_avail_out',                                                             &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Available P for GROWTH of existing plant biomass",                        &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for vc_max_out
+!-----------------------------------------------------------------------------
+DATA metadata(793) / var_metadata(                                             &
+! String identifier
+    'vc_max_out',                                                              &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "vc max out",                                                              &
+! Units
+    ""                                                                         &
+  ) /
+!-----------------------------------------------------------------------------
+!-----------------------------------------------------------------------------
+! Metadata for j_max_out
+!-----------------------------------------------------------------------------
+DATA metadata(794) / var_metadata(                                             &
+! String identifier
+    'j_max_out',                                                               &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "j max out",                                                               &
+! Units
+    ""                                                                         &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for fsmcl_out
+!-----------------------------------------------------------------------------
+DATA metadata(795) / var_metadata(                                             &
+! String identifier
+    'fsmcl_out',                                                               &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "fsmcl out",                                                               &
+! Units
+    ""                                                                         &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for ftemp_out
+!-----------------------------------------------------------------------------
+DATA metadata(796) / var_metadata(                                             &
+! String identifier
+    'ftemp_out',                                                               &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "ftemp out",                                                               &
+! Units
+    ""                                                                         &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for stype
+!-----------------------------------------------------------------------------
+DATA metadata(797) / var_metadata(                                             &
+! String identifier
+    'stype',                                                                   &
+! Variable type
+    var_type_sclayer,                                                          &
+! Long name
+    "Soil type ",                                                              &
+! Units
+    "1"                                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for stype_const_z
+!-----------------------------------------------------------------------------
+DATA metadata(798) / var_metadata(                                             &
+! String identifier
+    'stype_const_z',                                                           &
+! Variable type
+    var_type_surface,                                                          &
+! Variable is not available for output, so give dummy values for long name
+! and units
+    "", ""                                                                     &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for stype_soilt
+!-----------------------------------------------------------------------------
+DATA metadata(799) / var_metadata(                                             &
+! String identifier
+    'stype_soilt',                                                             &
+! Variable type
+    var_type_soilt_sclayer,                                                    &
+! Long name
+    "Soil type on soil tiles",                                                 &
+! Units
+    "1"                                                                        &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_leach
+!-----------------------------------------------------------------------------
+DATA metadata(800) / var_metadata(                                             &
+! String identifier
+    'p_leach',                                                                 &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Leached P Losses",                                                        &
+! Units
+    "kg/m2/s"                                                                  &
+  ) /
+
+!-----------------------------------------------------------------------------
+! Metadata for p_root
+!-----------------------------------------------------------------------------
+DATA metadata(801) / var_metadata(                                             &
+! String identifier
+    'p_root',                                                                  &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "PFT Root P content scaled by LAI_BAL in sf_stom",                         &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_stem
+!-----------------------------------------------------------------------------
+DATA metadata(802) / var_metadata(                                             &
+! String identifier
+    'p_stem',                                                                  &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "PFT Stem P content scaled by LAI_BAL in sf_stom",                         &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for p_leaf
+!-----------------------------------------------------------------------------
+DATA metadata(803) / var_metadata(                                             &
+! String identifier
+    'p_leaf',                                                                  &
+! Variable type
+    var_type_pft,                                                              &
+! Long name
+    "PFT Leaf P content scaled by LAI in sf_stom",                             &
+! Units
+    "kg m-2"                                                                   &
+  ) /
+!-----------------------------------------------------------------------------
+! Metadata for n_avail_out
+!-----------------------------------------------------------------------------
+DATA metadata(804) / var_metadata(                                             &
+! String identifier
+    'n_avail_out',                                                             &
+! Variable type
+    var_type_surface,                                                          &
+! Long name
+    "Available N for GROWTH of existing plant biomass",                        &
+! Units
+    "kg/m2/360 days"                                                           &
+  ) /
 #endif

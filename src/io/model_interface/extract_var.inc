@@ -257,6 +257,10 @@ CASE ( 'clay_soilt' )
   cube_land = cube_from_array(psparms%clay_soilt)
   cube = map_from_land(cube_land)
 
+  !CASE ( 'stype_soilt' )
+  !  cube_land = cube_from_array(psparms%stype_soilt)
+  !  cube = map_from_land(cube_land)
+
 CASE ( 'sathh' )
   IF ( nsoilt == 1 ) THEN
     DO k = 1, sm_levels
@@ -908,6 +912,28 @@ CASE ( 'ns' )
   END SELECT
   cube = map_from_land(cube_land)
 
+CASE ( 'ps_par' )
+  cube_land = cube_from_array(progs%ps_parent_gb(:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'ps_in_sorbed' )
+  cube_land = cube_from_array(progs%ps_in_sorbed_pool_gb(:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'ps_or_sorbed' )
+  cube_land = cube_from_array(progs%ps_or_sorbed_pool_gb(:,:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'ps_org' )
+  cube_land = cube_from_array(progs%ps_org_pool(:,:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'ps_occ' )
+  cube_land = cube_from_array(progs%ps_occ_pool_gb(:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'ps_lab' )
+  cube_land = cube_from_array(progs%ps_lab_pool_gb(:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'plant_p_pool' )
+  cube_land = cube_from_array(progs%plant_p_pool_gb)
+  cube = map_from_land(cube_land)
+
 CASE ( 'fN' )
   cube_land = cube_from_array(trif_vars%fn_gb(:,:))
   cube = map_from_land(cube_land)
@@ -947,6 +973,13 @@ CASE ( 'minl_n_pot_gb' )
   cube_land = cube_from_array(SUM(trif_vars%minl_n_pot_gb(:,:,5), 2))
   cube = map_from_land(cube_land)
 
+CASE ( 'minl_p_gb' )
+  cube_land = cube_from_array(SUM(trif_vars%minl_p_gb(:,:,5), 2))
+  cube = map_from_land(cube_land)
+CASE ( 'immob_p_gb' )
+  cube_land = cube_from_array(SUM(trif_vars%immob_p_gb(:,:,5), 2))
+  cube = map_from_land(cube_land)
+
 CASE ( 'ns_gb' )
   SELECT CASE ( soil_bgc_model )
   CASE ( soil_model_4pool )
@@ -961,6 +994,46 @@ CASE ( 'ns_gb' )
                      "Cannot output ns_gb when nsoilt > 1")
     END IF
   END SELECT
+  cube = map_from_land(cube_land)
+
+CASE ( 'ps_org_gb' )
+  cube_land = cube_from_array(SUM(SUM(progs%ps_org_pool(:,:,1:4),DIM = 3), 2))
+  cube = map_from_land(cube_land)
+CASE ( 'p_inorg_avail_pft' )
+  cube_land = cube_from_array(progs%p_inorg_avail_pft)
+  cube = map_from_land(cube_land)
+CASE ( 'f_up_gb' )
+  cube_land = cube_from_array(trif_vars%f_up_gb(:))
+  cube = map_from_land(cube_land)
+CASE ( 'f_up' )
+  cube_land = cube_from_array(trif_vars%f_up(:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'ps_or_p_out' )
+  cube_land = cube_from_array(trif_vars%ps_or_p_out)
+  cube = map_from_land(cube_land)
+CASE ( 'ps_out' )
+  cube_land = cube_from_array(trif_vars%ps_out)
+  cube = map_from_land(cube_land)
+CASE ( 'ps_or_out' )
+  cube_land = cube_from_array(trif_vars%ps_or_out)
+  cube = map_from_land(cube_land)
+CASE ( 'ps_in_out' )
+  cube_land = cube_from_array(trif_vars%ps_in_out)
+  cube = map_from_land(cube_land)
+CASE ( 'ps_par_out' )
+  cube_land = cube_from_array(trif_vars%ps_par_out)
+  cube = map_from_land(cube_land)
+CASE ( 'ps_occ_out' )
+  cube_land = cube_from_array(trif_vars%ps_occ_out)
+  cube = map_from_land(cube_land)
+CASE ( 'fn_out' )
+  cube_land = cube_from_array(trif_vars%fn_out(:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'fp_out' )
+  cube_land = cube_from_array(trif_vars%fp_out(:,:))
+  cube = map_from_land(cube_land)
+CASE ( 'p_litter_flux' )
+  cube_land = cube_from_array(trif_vars%p_litter_flux(:))
   cube = map_from_land(cube_land)
 
 CASE ( 'soil_CN_gb' )
@@ -1509,6 +1582,10 @@ CASE ( 'lwp_c' )
   cube_land = cube_from_array(trifctltype%lwp_c_pft)
   cube = map_from_land(cube_land)
 
+CASE ( 'p_supply' )
+  cube_land = cube_from_array(trifctltype%p_supply)
+  cube = map_from_land(cube_land)
+
 CASE ( 'cs' )
   IF (nsoilt == 1) THEN
     cube_land = cube_from_array(progs%cs_pool_soilt(:,1,:,:))
@@ -1624,6 +1701,22 @@ CASE ( 'cnsrv_n_inorg_triffid' )
   cube_land = cube_from_array(REAL(trif_vars%cnsrv_n_inorg_triffid_gb))
   cube = map_from_land(cube_land)
 
+CASE ( 'cnsrv_phosphorus_triffid' )
+  cube_land = cube_from_array(REAL(trif_vars%cnsrv_phosphorus_triffid_gb))
+  cube = map_from_land(cube_land)
+
+CASE ( 'cnsrv_vegP_triffid' )
+  cube_land = cube_from_array(REAL(trif_vars%cnsrv_vegP_triffid_gb))
+  cube = map_from_land(cube_land)
+
+CASE ( 'cnsrv_soilP_triffid' )
+  cube_land = cube_from_array(REAL(trif_vars%cnsrv_soilP_triffid_gb))
+  cube = map_from_land(cube_land)
+
+CASE ( 'cnsrv_P_inorg_triffid' )
+  cube_land = cube_from_array(REAL(trif_vars%cnsrv_p_inorg_triffid_gb))
+  cube = map_from_land(cube_land)
+
 CASE ( 'lit_c_fire' )
   cube_land = cube_from_array(REAL(trif_vars%lit_c_fire_pft))
   cube = map_from_land(cube_land)
@@ -1654,6 +1747,10 @@ CASE ( 'n_inorg' )
 
 CASE ( 'n_inorg_avail_pft' )
   cube_land = cube_from_array(progs%n_inorg_avail_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'ps' )
+  cube_land = cube_from_array(progs%p_inorg_soilt_lyrs(:,1,:))
   cube = map_from_land(cube_land)
 
 CASE ( 'n_inorg_gb' )
@@ -1735,6 +1832,82 @@ CASE ( 'n_uptake' )
 
 CASE ( 'n_uptake_gb' )
   cube_land = cube_from_array(trif_vars%n_uptake_gb)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_uptake' )
+  cube_land = cube_from_array(trif_vars%p_uptake_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_uptake_gb' )
+  cube_land = cube_from_array(trif_vars%p_uptake_gb)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_demand' )
+  cube_land = cube_from_array(trif_vars%p_demand_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_demand_gb' )
+  cube_land = cube_from_array(trif_vars%p_demand_gb)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_demand_growth' )
+  cube_land = cube_from_array(trif_vars%p_demand_growth_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_uptake_growth' )
+  cube_land = cube_from_array(trif_vars%p_uptake_growth_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_demand_lit' )
+  cube_land = cube_from_array(trif_vars%p_demand_lit_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_demand_spread' )
+  cube_land = cube_from_array(trif_vars%p_demand_spread_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_veg' )
+  cube_land = cube_from_array(trif_vars%p_veg_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_veg_gb' )
+  cube_land = cube_from_array(trif_vars%p_veg_gb)
+  cube = map_from_land(cube_land)
+
+CASE ( 'dpveg' )
+  cube_land = cube_from_array(trif_vars%dpveg_pft)
+  cube = map_from_land(cube_land)
+
+CASE ( 'dpveg_gb' )
+  cube_land = cube_from_array(trif_vars%dpveg_gb)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_tot' )
+  cube_land = cube_from_array(trif_vars%p_tot)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_tot2' )
+  cube_land = cube_from_array(trif_vars%p_tot2)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_uptake_extract_gb' )
+  cube_land = cube_from_array(SUM(trif_vars%p_uptake_extract(:,1,:), 2)*360)
+  cube = map_from_land(cube_land)
+
+CASE ( 'lit_p_t' )
+  cube_land = cube_from_array(trif_vars%lit_p_t_gb)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_avail_out' )
+  cube_land = cube_from_array(trif_vars%p_avail_out)
+  cube = map_from_land(cube_land)
+
+CASE ( 'n_avail_out' )
+  cube_land = cube_from_array(trif_vars%n_avail_out)
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_leaf' )
+  cube_land = cube_from_array(trif_vars%p_leaf_pft)
   cube = map_from_land(cube_land)
 
 CASE ( 'leaf_litC' )
@@ -1837,6 +2010,18 @@ CASE ( 'n_leach' )
   CASE ( soil_model_ecosse )
     cube_land = cube_from_array( soilecosse%n_leach_amm_gb(:) +                &
                                  soilecosse%n_leach_nit_gb(:) )
+  END SELECT
+  cube = map_from_land(cube_land)
+
+CASE ( 'p_leach' )
+  SELECT CASE ( soil_bgc_model )
+  CASE ( soil_model_4pool )
+    IF (nsoilt == 1) THEN
+      cube_land = cube_from_array(trif_vars%p_leach_soilt(:,1))
+    ELSE
+      CALL log_fatal("extract_var",                                            &
+              "Cannot output GB mean value for p_leach when nsoilt > 1")
+    END IF
   END SELECT
   cube = map_from_land(cube_land)
 
