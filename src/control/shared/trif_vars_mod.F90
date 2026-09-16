@@ -274,7 +274,7 @@ TYPE :: trif_vars_data_type
   REAL(KIND=real_jlslsm), ALLOCATABLE :: cnsrv_P_inorg_triffid_gb(:)
                         ! Diagnostic of error in inorganic phosphorus
                         ! conservation in the triffid routine (kg m-2).
-  
+
   !-----------------------------------------------------------------------------
   ! Variables added for ticket Phosphorus scheme
   !-----------------------------------------------------------------------------
@@ -386,10 +386,10 @@ TYPE :: trif_vars_data_type
                         ! diagnostics_veg.F90 (kg/m2/360days).
   REAL(KIND=real_jlslsm), ALLOCATABLE :: smcl_gb(:,:)
                         ! Soil moisture content in each layer (kg/m2). Used for P uptake calcs
-  REAL(KIND=real_jlslsm), ALLOCATABLE :: p_avail_out(:) 
+  REAL(KIND=real_jlslsm), ALLOCATABLE :: p_avail_out(:)
                         ! Soil available P used to defined the P limitation level
   REAL(KIND=real_jlslsm), ALLOCATABLE :: n_avail_out(:)
-                        ! Soil available N used to defined the N limitation level 
+                        ! Soil available N used to defined the N limitation level
   REAL(KIND=real_jlslsm), ALLOCATABLE :: p_fertiliser_add(:,:,:)
                       ! Phosphorus added to each soil layer by fertiliser
                       ! (kg m-2).
@@ -817,7 +817,7 @@ TYPE :: trif_vars_type
   REAL(KIND=real_jlslsm), POINTER :: p_uptake_extract(:,:,:)
   REAL(KIND=real_jlslsm), POINTER :: p_uptake_spread_pft(:,:)
   REAL(KIND=real_jlslsm), POINTER :: p_leach_gb_acc(:)
-  REAL(KIND=real_jlslsm), POINTER :: smcl_gb(:,:)               
+  REAL(KIND=real_jlslsm), POINTER :: smcl_gb(:,:)
   ! Soil moisture content in each layer (kg/m2). Used for P uptake calcs
   REAL(KIND=real_jlslsm), POINTER :: p_avail_out(:)
   REAL(KIND=real_jlslsm), POINTER :: n_avail_out(:)
