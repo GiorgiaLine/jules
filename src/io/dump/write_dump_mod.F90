@@ -283,6 +283,20 @@ DO i = 1,nvars
       END DO
     END DO
 
+  CASE ( 'p_inorg' )
+    DO n = 1,dim_cslayer
+      CALL gather_land_field(progs%p_inorg_soilt_lyrs(:,1,n),                  &
+                             global_data_2d(:,n))
+    END DO
+
+  CASE ( 'p_inorg_soilt' )
+    DO m = 1,nsoilt
+      DO n = 1,dim_cslayer
+        CALL gather_land_field(progs%p_inorg_soilt_lyrs(:,m,n),                &
+                               global_data_3d(:,m,n))
+      END DO
+    END DO
+
   CASE ( 'substr_ch4' )
     DO n = 1,dim_ch4layer
       CALL gather_land_field(progs%substr_ch4(:,n),                            &
@@ -417,6 +431,38 @@ DO i = 1,nvars
         CALL gather_land_field(progs%ns_pool_gb(:,m,n), global_data_3d(:,m,n))
       END DO
     END DO
+
+  CASE ( 'ps_par' )
+    DO m = 1,dim_cslayer
+      CALL gather_land_field(progs%ps_parent_gb(:,m), global_data_2d(:,m))
+    END DO
+
+  CASE ( 'ps_in_sorbed' )
+    DO m = 1,dim_cslayer
+      CALL gather_land_field(progs%ps_in_sorbed_pool_gb(:,m), global_data_2d(:,m))
+    END DO
+
+  CASE ( 'ps_or_sorbed' )
+    DO n = 1,dim_cs1
+      DO m = 1,dim_cslayer
+        CALL gather_land_field(progs%ps_or_sorbed_pool_gb(:,m,n), global_data_3d(:,m,n))
+      END DO
+    END DO
+
+  CASE ( 'ps_occ' )
+    DO m = 1,dim_cslayer
+      CALL gather_land_field(progs%ps_occ_pool_gb(:,m), global_data_2d(:,m))
+    END DO
+
+  CASE ( 'ps_org' )
+    DO n = 1,dim_cs1
+      DO m = 1,dim_cslayer
+        CALL gather_land_field(progs%ps_org_pool(:,m,n), global_data_3d(:,m,n))
+      END DO
+    END DO
+
+  CASE ( 'plant_p_pool' )
+    CALL gather_land_field(progs%plant_p_pool_gb, global_data_1d)
 
     !Case if nsoilt == 1, so it is OK to hardwire the 2nd dimension to 1
   CASE ( 'sthuf' )
@@ -829,6 +875,19 @@ DO i = 1,nvars
       END DO
     END DO
 
+  CASE ( 'stype' )
+    DO n = 1,dim_cslayer
+      CALL gather_land_field(psparms%stype_soilt(:,1,n),global_data_2d(:,n))
+    END DO
+
+  CASE ( 'stype_soilt' )
+    DO m = 1,nsoilt
+      DO n = 1,dim_cslayer
+        CALL gather_land_field(psparms%stype_soilt(:,m,n),                     &
+                               global_data_3d(:,m,n))
+      END DO
+    END DO
+
   CASE ( 'soil_ph' )
     DO n = 1,dim_cslayer
       CALL gather_land_field(psparms%soil_ph_soilt(:,1,n),global_data_2d(:,n))
@@ -978,7 +1037,7 @@ DO i = 1,nvars
            'fire_nesterov', 'lake_fetch_gb', 'lake_t_mean_gb',                 &
            'lake_t_mxl_gb', 'lake_h_mxl_gb', 'lake_t_ice_gb',                  &
            'lake_h_ice_gb', 'lake_shape_factor_gb', 'latitude', 'longitude',   &
-           'projection_x_coord', 'projection_y_coord' )
+           'projection_x_coord', 'projection_y_coord', 'plant_p_pool' )
       CALL file_write_var(FILE, var_ids(i), global_data_1d)
 
     CASE ( 'toppdm%sthzw_soilt', 'toppdm%zw_soilt' )
@@ -1009,6 +1068,14 @@ DO i = 1,nvars
       CALL file_write_var(FILE, var_ids(i),                                    &
                           global_data_3d(:,1:nsoilt,1:dim_cslayer))
 
+    CASE ( 'p_inorg')
+      CALL file_write_var(FILE, var_ids(i),                                    &
+                          global_data_2d(:,1:dim_cslayer))
+
+    CASE ( 'p_inorg_soilt')
+      CALL file_write_var(FILE, var_ids(i),                                    &
+                          global_data_3d(:,1:nsoilt,1:dim_cslayer))
+
     CASE ( 'substr_ch4','mic_ch4','mic_act_ch4','acclim_ch4' )
       CALL file_write_var(FILE, var_ids(i),                                    &
                           global_data_2d(:,1:dim_ch4layer))
@@ -1024,9 +1091,13 @@ DO i = 1,nvars
     CASE ( 'rgrainl', 'snow_ds', 'snow_ice', 'snow_liq', 'tsnow' )
       CALL file_write_var(FILE, var_ids(i),                                    &
                           global_data_3d(:,1:nsurft,1:nsmax))
-    CASE ( 'cs','ns', 'frac_c_label_pool' )
+    CASE ( 'cs','ns', 'frac_c_label_pool', 'ps_org', 'ps_or_sorbed' )
       CALL file_write_var(FILE, var_ids(i),                                    &
                           global_data_3d(:,1:dim_cslayer,1:dim_cs1))
+
+    CASE ( 'ps_par','ps_in_sorbed','ps_occ')
+      CALL file_write_var(FILE, var_ids(i),                                    &
+                          global_data_2d(:,1:dim_cslayer))
 
     CASE ( 'cs_soilt', 'frac_c_label_pool_soilt' )
       CALL file_write_var(FILE, var_ids(i),                                    &
@@ -1098,11 +1169,11 @@ DO i = 1,nvars
     CASE ( 'albsoil_soilt' )
       CALL file_write_var(FILE, var_ids(i), global_data_2d(:,1:nsoilt))
 
-    CASE ( 'clay', 'soil_ph' )
+    CASE ( 'clay', 'soil_ph', 'stype' )
       CALL file_write_var(FILE, var_ids(i),                                    &
            global_data_2d(:,1:dim_cslayer))
 
-    CASE ( 'clay_soilt', 'soil_ph_soilt' )
+    CASE ( 'clay_soilt', 'soil_ph_soilt', 'stype_soilt' )
       CALL file_write_var(FILE, var_ids(i),                                    &
            global_data_3d(:,1:nsoilt,1:dim_cslayer))
 
