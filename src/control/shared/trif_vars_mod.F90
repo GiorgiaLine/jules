@@ -1301,7 +1301,6 @@ IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
 RETURN
 END SUBROUTINE trif_vars_alloc
 
-
 !===============================================================================
 SUBROUTINE trif_vars_dealloc(trif_vars_data)
 
