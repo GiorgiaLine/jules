@@ -257,9 +257,10 @@ CASE ( 'clay_soilt' )
   cube_land = cube_from_array(psparms%clay_soilt)
   cube = map_from_land(cube_land)
 
+  !!! GL stype caused OOM issue
   !CASE ( 'stype_soilt' )
   !  cube_land = cube_from_array(psparms%stype_soilt)
-  !  cube = map_from_land(cube_land)
+  !   cube = map_from_land(cube_land)
 
 CASE ( 'sathh' )
   IF ( nsoilt == 1 ) THEN
