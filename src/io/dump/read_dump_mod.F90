@@ -197,7 +197,7 @@ DO i = 1,nvars
            'fire_mcarthur_r_dr', 'fire_mcarthur_n_dr',                         &
            'fire_canadian_ffmc', 'fire_canadian_ffmc_mois',                    &
            'fire_canadian_dmc',  'fire_canadian_dc',                           &
-           'fire_nesterov')
+           'fire_nesterov', 'plant_p_pool')
       CALL file_read_var(FILE, var_ids(i), global_data_1d)
 
       !----------------------------------------------------------------------
@@ -225,11 +225,14 @@ DO i = 1,nvars
       CALL file_read_var(FILE, var_ids(i),                                     &
                          global_data_3d(:,1:nsoilt,1:sm_levels))
 
-    CASE ( 'n_inorg' )
+    CASE ( 'n_inorg', 'p_inorg' )
+      CALL file_read_var(FILE, var_ids(i),                                     &
+                         global_data_2d(:,1:dim_cslayer))
+    CASE ( 'ps_par', 'ps_in_sorbed', 'ps_occ')
       CALL file_read_var(FILE, var_ids(i),                                     &
                          global_data_2d(:,1:dim_cslayer))
 
-    CASE ( 'n_inorg_soilt' )
+    CASE ( 'n_inorg_soilt', 'p_inorg_soilt' )
       CALL file_read_var(FILE, var_ids(i),                                     &
                          global_data_3d(:,1:nsoilt,1:dim_cslayer))
 
@@ -248,7 +251,7 @@ DO i = 1,nvars
       CALL file_read_var(FILE, var_ids(i),                                     &
                          global_data_3d(:,1:nsurft,1:nsmax))
 
-    CASE ( 'cs','ns', 'frac_c_label_pool' )
+    CASE ( 'cs','ns', 'frac_c_label_pool', 'ps_or_sorbed', 'ps_org' )
       CALL file_read_var(FILE, var_ids(i),                                     &
                          global_data_3d(:,1:dim_cslayer,1:dim_cs1))
 
@@ -340,13 +343,13 @@ DO i = 1,nvars
         CALL file_read_var(FILE, var_ids(i), global_data_2d(:,1:nsoilt))
       END IF
 
-    CASE ( 'clay', 'soil_ph' )
+    CASE ( 'clay', 'soil_ph', 'stype' )
       IF ( ancil_dump_read%soil_props ) THEN
         CALL file_read_var(FILE, var_ids(i),                                   &
                            global_data_2d(:,1:dim_cslayer))
       END IF
 
-    CASE ( 'clay_soilt', 'soil_ph_soilt' )
+    CASE ( 'clay_soilt', 'soil_ph_soilt', 'stype_soilt' )
       IF ( ancil_dump_read%soil_props ) THEN
         CALL file_read_var(FILE, var_ids(i),                                   &
                            global_data_3d(:,1:nsoilt,1:dim_cslayer))
@@ -508,6 +511,29 @@ DO i = 1,nvars
       END DO
     END DO
 
+  CASE ( 'p_inorg' )
+    IF ( l_tile_soil .AND. l_broadcast_soilt ) THEN
+      DO m = 1, nsoilt
+        DO n = 1,dim_cslayer
+          CALL scatter_land_field(global_data_2d(:,n),                         &
+                                  progs%p_inorg_soilt_lyrs(:,m,n))
+        END DO
+      END DO
+    ELSE !Case if nsoilt == 1, so OK to hardwire the 2nd dimension to 1
+      DO n = 1,dim_cslayer
+        CALL scatter_land_field(global_data_2d(:,n),                           &
+                                progs%p_inorg_soilt_lyrs(:,1,n))
+      END DO
+    END IF
+
+  CASE ( 'p_inorg_soilt' )
+    DO m = 1, nsoilt
+      DO n = 1,dim_cslayer
+        CALL scatter_land_field(global_data_3d(:,m,n),                         &
+                                progs%p_inorg_soilt_lyrs(:,m,n))
+      END DO
+    END DO
+
   CASE ( 'substr_ch4' )
     DO n = 1,dim_ch4layer
       CALL scatter_land_field(global_data_2d(:,n), progs%substr_ch4(:,n))
@@ -653,6 +679,43 @@ DO i = 1,nvars
                                 progs%ns_pool_gb(:,m,n))
       END DO
     END DO
+
+  CASE ( 'ps_par' )
+    DO m = 1,dim_cslayer
+      CALL scatter_land_field(global_data_2d(:,m),                             &
+                              progs%ps_parent_gb(:,m))
+    END DO
+
+  CASE ( 'ps_in_sorbed' )
+    DO m = 1,dim_cslayer
+      CALL scatter_land_field(global_data_2d(:,m),                             &
+                              progs%ps_in_sorbed_pool_gb(:,m))
+    END DO
+
+  CASE ( 'ps_or_sorbed' )
+    DO n = 1,dim_cs1
+      DO m = 1,dim_cslayer
+        CALL scatter_land_field(global_data_3d(:,m,n),                         &
+                                progs%ps_or_sorbed_pool_gb(:,m,n))
+      END DO
+    END DO
+
+  CASE ( 'ps_occ' )
+    DO m = 1,dim_cslayer
+      CALL scatter_land_field(global_data_2d(:,m),                             &
+                              progs%ps_occ_pool_gb(:,m))
+    END DO
+
+  CASE ( 'ps_org' )
+    DO n = 1,dim_cs1
+      DO m = 1,dim_cslayer
+        CALL scatter_land_field(global_data_3d(:,m,n),                         &
+                                progs%ps_org_pool(:,m,n))
+      END DO
+    END DO
+
+  CASE ( 'plant_p_pool' )
+    CALL scatter_land_field(global_data_1d, progs%plant_p_pool_gb)
 
   CASE ( 'sthuf' )
     ! sthuf is held in sthu until it is processed
@@ -1265,6 +1328,24 @@ DO i = 1,nvars
         DO n = 1,dim_cslayer
           CALL scatter_land_field(global_data_3d(:,m,n),                       &
                                   psparms%clay_soilt(:,m,n))
+        END DO
+      END DO
+    END IF
+
+  CASE ( 'stype' )
+    IF ( ancil_dump_read%soil_props ) THEN
+      DO n = 1,dim_cslayer
+        CALL scatter_land_field(global_data_2d(:,n),                           &
+                                psparms%stype_soilt(:,1,n))
+      END DO
+    END IF
+
+  CASE ( 'stype_soilt' )
+    IF ( ancil_dump_read%soil_props ) THEN
+      DO m = 1,nsoilt
+        DO n = 1,dim_cslayer
+          CALL scatter_land_field(global_data_3d(:,m,n),                       &
+                                  psparms%stype_soilt(:,m,n))
         END DO
       END DO
     END IF
