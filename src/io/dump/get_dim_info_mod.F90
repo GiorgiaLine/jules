@@ -142,7 +142,7 @@ CASE ( 'gs', 't_growth_gb', 'cv', 'frac_agr_prev', 'frac_past_prev',           &
        'fire_nesterov', 'lake_fetch_gb', 'lake_t_mean_gb',                     &
        'lake_t_mxl_gb', 'lake_h_mxl_gb', 'lake_t_ice_gb',                      &
        'lake_h_ice_gb', 'lake_shape_factor_gb', 'latitude', 'longitude',       &
-       'projection_x_coord', 'projection_y_coord' )
+       'projection_x_coord', 'projection_y_coord', 'plant_p_pool' )
   ndims = 1
   dim_names(1) = land_dim_name
   dim_sizes(1) = global_land_pts
@@ -173,7 +173,7 @@ CASE ( 'cropdvi', 'croprootc', 'cropharvc', 'cropreservec',                    &
   dim_names(1:ndims) = [ land_dim_name, cpft_dim_name ]
   dim_sizes(1:ndims) = [ global_land_pts, ncpft ]
 
-CASE ( 'cs', 'ns', 'frac_c_label_pool' )
+CASE ( 'cs', 'ns', 'frac_c_label_pool', 'ps_org', 'ps_or_sorbed' )
   ndims = 3
   dim_names(1:ndims) = [ land_dim_name, sclayer_dim_name,                      &
                           scpool_dim_name ]
@@ -213,12 +213,13 @@ CASE ( 'sthuf_soilt', 't_soil_soilt', 'sthu_irr_soilt' )
   dim_names(1:ndims) = [ land_dim_name, soilt_dim_name, soil_dim_name ]
   dim_sizes(1:ndims) = [ global_land_pts, nsoilt, sm_levels ]
 
-CASE ( 'n_inorg' )
+CASE ( 'n_inorg', 'p_inorg', 'ps_par', 'ps_in_sorbed',                         &
+       'ps_occ' )
   ndims = 2
   dim_names(1:ndims) = [ land_dim_name, sclayer_dim_name ]
   dim_sizes(1:ndims) = [ global_land_pts, dim_cslayer ]
 
-CASE ( 'n_inorg_soilt' )
+CASE ( 'n_inorg_soilt', 'p_inorg_soilt' )
   ndims = 3
   dim_names(1:ndims) = [ land_dim_name, soilt_dim_name,                        &
                           sclayer_dim_name ]
@@ -345,7 +346,7 @@ CASE ( 'albsoil_soilt' )
     l_read_from_dump = .FALSE.
   END IF
 
-CASE ( 'clay', 'soil_ph' )
+CASE ( 'clay', 'soil_ph', 'stype' )
   IF ( need_dims( l_reading, ancil_dump_read%soil_props ) ) THEN
     ndims = 2
     dim_names(1:ndims) = [ land_dim_name, sclayer_dim_name ]
@@ -354,7 +355,7 @@ CASE ( 'clay', 'soil_ph' )
     l_read_from_dump = .FALSE.
   END IF
 
-CASE ( 'clay_soilt', 'soil_ph_soilt' )
+CASE ( 'clay_soilt', 'soil_ph_soilt', 'stype_soilt' )
   IF ( need_dims( l_reading, ancil_dump_read%soil_props ) ) THEN
     ndims = 3
     dim_names(1:ndims) = [ land_dim_name, soilt_dim_name,                      &
