@@ -17,7 +17,7 @@
     [[METO_EX1A_CCE_BUILD]]
         inherit = None, METO_EX1A_CCE_ENV, METO_EX1A_QUEUE, BUILD
         [[[directives]]]
-            -l select=1:ncpus=8:mem=4G
+            -l select=1:ncpus=8:mem=5G
         [[[environment]]]
             ROSE_TASK_N_JOBS = 8
             JULES_PLATFORM = meto-ex1a-cce
