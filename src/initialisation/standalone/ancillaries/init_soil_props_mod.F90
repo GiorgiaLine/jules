@@ -53,7 +53,7 @@ IMPLICIT NONE
 !------------------------------------------------------------------------------
 
 ! Work variables
-INTEGER, PARAMETER :: nvars_max = 11 ! The maximum possible number of
+INTEGER, PARAMETER :: nvars_max = 15 ! The maximum possible number of
                                     ! variables that can be given
 
 INTEGER :: nvars_const         ! The number of variables to be set using
@@ -189,7 +189,23 @@ IF ( .NOT. ancil_dump_read%soil_props) THEN
     END IF
   END IF
 
-  ! Variables used with ECOSSE.
+  ! Added stype for soil in the same way as in CNP_FAR:
+  nvars_required                = nvars_required + 1
+  required_vars(nvars_required) = 'stype'
+  !!! GL Testing
+  IF ( .NOT. ANY(var(1:nvars) == 'stype') ) THEN
+    CALL log_warn(RoutineName,                                                 &
+                  "No value given for stype")
+    ! Add stype to the list of variables, so that it will be set to zero.
+    nvars                     = nvars + 1
+    var(nvars)                = 'stype'
+    use_file(nvars_required)  = .FALSE.
+    const_val(nvars_required) = 0
+  END IF
+  ! End adding stype
+  !!! End GL Testing
+
+    ! Variables used with ECOSSE.
   IF ( soil_bgc_model == soil_model_ecosse ) THEN
     nvars_required                = nvars_required + 1
     required_vars(nvars_required) = 'clay'
@@ -212,13 +228,26 @@ IF ( .NOT. ancil_dump_read%soil_props) THEN
     END DO
   END IF
 
-  !---------------------------------------------------------------------------
-  ! Constant Z (i.e. spatially varying but constant through vertical levels)
-  ! is implemented by having a separate input variable in
-  ! model_interface_mod called <var>_const_z that has no vertical levels.
-  ! Hence, once the previous check is done, we add _const_z to both
-  ! required and provided variable identifiers if asked for.
-  !---------------------------------------------------------------------------
+  !!! GL Testing
+  IF ( .NOT. ANY(var(1:nvars) == 'stype_soilt') ) THEN
+    CALL log_warn(RoutineName,                                                 &
+                  "No value given for stype_soilt")
+    ! Add stype_soilt to the list of variables, so that it will be set to zero.
+    nvars                     = nvars + 1
+    var(nvars)                = 'stype_soilt'
+    use_file(nvars_required)  = .FALSE.
+    const_val(nvars_required) = 1
+  END IF
+  ! End adding stype_soilt
+  !!! End GL Testing
+
+    !---------------------------------------------------------------------------
+    ! Constant Z (i.e. spatially varying but constant through vertical levels)
+    ! is implemented by having a separate input variable in
+    ! model_interface_mod called <var>_const_z that has no vertical levels.
+    ! Hence, once the previous check is done, we add _const_z to both
+    ! required and provided variable identifiers if asked for.
+    !---------------------------------------------------------------------------
   soil_props_const_z = const_z
   IF ( soil_props_const_z ) THEN
     DO i = 1,nvars
@@ -235,6 +264,29 @@ IF ( .NOT. ancil_dump_read%soil_props) THEN
       END IF
     END DO
   END IF  !  soil_ancil_const_z
+
+  !!! GL Testing - Set stype req vars other than stype_soilt to 0.0,
+  !!! However, still not sure if these should be integers?
+  IF ( .NOT. ANY(var(1:nvars) == 'stype_const_z') ) THEN
+    CALL log_warn(RoutineName,                                                 &
+                  "No value given for stype_const_z")
+    ! Add stype_const_z to the list of variables, so that it will be set to zero.
+    nvars                     = nvars + 1
+    var(nvars)                = 'stype_const_z'
+    use_file(nvars_required)  = .FALSE.
+    const_val(nvars_required) = 0
+  END IF
+
+  IF ( .NOT. ANY(var(1:nvars) == 'stype_soilt_const_z') ) THEN
+    CALL log_warn(RoutineName,                                                 &
+                  "No value given for stype_soilt_const_z")
+    ! Add stype_const_z_soilt to the list of variables, so that it will be set to zero.
+    nvars                     = nvars + 1
+    var(nvars)                = 'stype_soilt_const_z'
+    use_file(nvars_required)  = .FALSE.
+    const_val(nvars_required) = 0
+  END IF
+  !!! End GL Testing
 
   !----------------------------------------------------------------------------
   ! Check that variables in the namelist have been provided and set up other
