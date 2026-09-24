@@ -262,6 +262,7 @@ IF (l_triffid) THEN
                                   trif_vars%n_leaf_pft(l,n),                   &
                                   trif_vars%n_root_pft(l,n),                   &
                                   trif_vars%n_stem_pft(l,n),                   &
+                                  ! GL CNP_PHOS Add these back once plant growth is done.
                                   !CNUtils trif_vars%p_leaf_pft(l,n),                   &
                                   !CNUtils trif_vars%p_root_pft(l,n),                   &
                                   !CNUtils trif_vars%p_stem_pft(l,n),                   &

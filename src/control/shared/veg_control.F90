@@ -23,7 +23,7 @@ SUBROUTINE veg_control(                                                        &
   catch_snow_surft, catch_surft, infil_surft, z0_surft, z0h_bare_surft,        &
   c_veg_pft, cv_gb, lit_c_pft, lit_c_mn_gb, g_leaf_day_pft, g_leaf_phen_pft,   &
   lai_phen_pft, g_leaf_dr_out_pft, npp_dr_out_pft, resp_w_dr_out_pft,          &
-  qbase_l_soilt, sthf_soilt, sthu_soilt, w_flux_soilt,                         &
+  qbase_l_soilt, sthf_soilt, sthu_soilt, stype_soilt, w_flux_soilt,            &
   t_soil_soilt, cs_pool_soilt, frac_c_label_pool_soilt,                        &
   !New arguments replacing USE statements
   !trif_vars_mod (IN OUT)
@@ -36,6 +36,12 @@ SUBROUTINE veg_control(                                                        &
   wood_prod_slow_gb, frac_agr_prev_gb,                                         &
   frac_past_prev_gb, frac_biocrop_prev_gb, n_inorg_gb, n_inorg_soilt_lyrs,     &
   n_inorg_avail_pft, ns_pool_gb,                                               &
+  ! P prognostics
+  ps_org_pool,                                                                 &
+  p_inorg_gb, p_inorg_soilt_lyrs, p_inorg_avail_pft, ps_pool_gb,               &
+  ps_parent_gb, ps_in_sorbed_pool_gb, ps_or_sorbed_pool_gb,                    &
+  ps_occ_pool_gb, plant_p_pool_gb,                                             &
+  ! end P prognostics
   triffid_co2_gb, t_soil_soilt_acc, years_since_harvest,                       &
   ! p_s_parms (IN)
   bexp_soilt, sathh_soilt, smvcst_soilt, smvcwt_soilt,                         &
@@ -122,6 +128,7 @@ REAL(KIND=real_jlslsm), INTENT(IN) ::                                          &
         ! Base flow from each soil layer (kg m-2 s-1).
   sthf_soilt(land_pts,nsoilt,sm_levels),                                       &
   sthu_soilt(land_pts,nsoilt,sm_levels),                                       &
+  stype_soilt(land_pts,nsoilt,sm_levels),                                      &
   w_flux_soilt(land_pts,nsoilt,0:sm_levels),                                   &
         ! Fluxes of water between layers (kg m-2 s-1).
   t_soil_soilt(land_pts,nsoilt,sm_levels)
@@ -191,6 +198,27 @@ REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
           n_inorg_avail_pft(land_pts,npft,dim_cslayer)
 REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
           ns_pool_gb(land_pts,dim_cslayer,dim_cs1)
+! P prognostics
+REAL(KIND=real_jlslsm), INTENT(OUT) :: p_inorg_gb(land_pts)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          p_inorg_soilt_lyrs(land_pts,nsoilt,dim_cslayer)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          p_inorg_avail_pft(land_pts,npft,dim_cslayer)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          ps_pool_gb(land_pts,dim_cslayer,dim_cs1)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          ps_org_pool(land_pts,dim_cslayer,dim_cs1)
+! akurgans - make ps_parent_gb In if we don't change it and keep it constant
+REAL(KIND=real_jlslsm), INTENT(IN OUT) :: ps_parent_gb(land_pts,dim_cslayer)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          ps_in_sorbed_pool_gb(land_pts,dim_cslayer)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          ps_or_sorbed_pool_gb(land_pts,dim_cslayer,dim_cs1)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          ps_occ_pool_gb(land_pts,dim_cslayer)
+REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
+          plant_p_pool_gb(land_pts)
+! End P prognostics
 REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
           triffid_co2_gb(land_pts)
 REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
@@ -278,6 +306,10 @@ IF ( l_triffid ) THEN
     trif_vars%cnsrv_vegN_triffid_gb(l)     = 0.0
     trif_vars%cnsrv_soilN_triffid_gb(l)    = 0.0
     trif_vars%cnsrv_N_inorg_triffid_gb(l)  = 0.0
+    trif_vars%cnsrv_phosphorus_triffid_gb(l) = 0.0
+    trif_vars%cnsrv_vegP_triffid_gb(l)     = 0.0
+    trif_vars%cnsrv_soilP_triffid_gb(l)    = 0.0
+    trif_vars%cnsrv_P_inorg_triffid_gb(l)  = 0.0
   END DO
 END IF
 
@@ -348,9 +380,20 @@ IF ((phenol_call == 0) .OR. (triffid_call == 0)) THEN
                frac_past_prev_gb, frac_biocrop_prev_gb,                        &
                n_inorg_gb, n_inorg_soilt_lyrs,                                 &
                n_inorg_avail_pft, ns_pool_gb,                                  &
+               ! P prognostics GL CNP_PHOS Add back whrn Veg done
+               !ps_org_pool,                                                    &
+               !p_inorg_gb, p_inorg_soilt_lyrs,                                 &
+               !p_inorg_avail_pft, ps_pool_gb,                                  &
+               !ps_parent_gb, ps_in_sorbed_pool_gb, ps_or_sorbed_pool_gb,       &
+               !ps_occ_pool_gb, plant_p_pool_gb,                                &
+               ! End P prognostics
+               ! trifctltype%p_supply,                                          &
+               ! end P trifctl type vars
                triffid_co2_gb, t_soil_soilt_acc, years_since_harvest,          &
                !p_s_parms
                sthu_soilt,                                                     &
+               !GL CNP_PHOS Add back whrn Veg done
+               !stype_soilt,                                        &
                ! soil_ecosse_vars_mod
                n_soil_pool_soilt, dim_soil_n_pool,                             &
                !ancil_info (IN)
@@ -434,9 +477,20 @@ IF ( triffid_call == 0 ) THEN
             frac_past_prev_gb, frac_biocrop_prev_gb,                           &
             n_inorg_gb, n_inorg_soilt_lyrs,                                    &
             n_inorg_avail_pft, ns_pool_gb,                                     &
+            ! P prognostics GL CNP_PHOS Add back whrn Veg done
+            !ps_org_pool,                                                       &
+            !p_inorg_gb, p_inorg_soilt_lyrs,                                    &
+            !p_inorg_avail_pft, ps_pool_gb,                                     &
+            !ps_parent_gb, ps_in_sorbed_pool_gb, ps_or_sorbed_pool_gb,          &
+            !ps_occ_pool_gb, plant_p_pool_gb,                                   &
+            ! End P prognostics
+            !trifctltype%p_supply,                                              &
+            ! end P trifctl type vars
             triffid_co2_gb, t_soil_soilt_acc, years_since_harvest,             &
             !p_s_parms
             sthu_soilt,                                                        &
+            !GL CNP_PHOS Add back whrn Veg done
+            !stype_soilt,                                           &
             ! soil_ecosse_vars_mod
             n_soil_pool_soilt, dim_soil_n_pool,                                &
             !ancil_info (IN)

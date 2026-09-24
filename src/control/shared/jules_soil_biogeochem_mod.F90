@@ -155,6 +155,34 @@ REAL(KIND=real_jlslsm) ::                                                      &
 REAL(KIND=real_jlslsm) ::                                                      &
   bio_hum_CN = rmdi,                                                           &
     ! Soil Bio and Hum CN ratio parameter
+  bio_hum_CP(18) = rmdi,                                                       &
+    ! Soil Bio and Hum CP ratio parameter
+  l_cp_r(18) = rmdi,                                                           &
+    ! Leaf C:P ratio
+  w_cp_r(18) = rmdi,                                                           &
+    ! Wood C:P ratio
+  r_cp_r(18) = rmdi,                                                           &
+    ! Root C:P ratio
+  ps_in_max(18) = rmdi,                                                        &
+    ! Maximum inorganic P
+  ps_or_max(18) = rmdi,                                                        &
+    ! Maximum organic P
+  npr_soil  = rmdi,                                                            &
+    ! Soil Bio and Hum NP ratio parameter
+  a_root    = rmdi,                                                            &
+    ! Soil Bio and Hum CN ratio parameter
+  fpl       = rmdi,                                                            &
+    ! Soil Bio and Hum CN ratio parameter
+  k_org_sorp  = rmdi,                                                          &
+    ! Organic P sorbed ratio parameter
+  k_org_desorp  = rmdi,                                                        &
+    ! Organic P desorbed ratio parameter
+  k_in_sorp   = rmdi,                                                          &
+    ! Inorganic P sorbed ratio parameter
+  k_in_desorp   = rmdi,                                                        &
+    ! Inorganic P sorbed ratio parameter
+  sorp_pl = rmdi,                                                              &
+    ! Soil inorganic P factor in leaching.
   sorp = rmdi,                                                                 &
     ! Soil inorganic N factor in leaching.
   N_inorg_turnover = rmdi,                                                     &
@@ -249,8 +277,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 !-----------------------------------------------------------------------------
 NAMELIST  / jules_soil_biogeochem/                                             &
 ! Shared
-    soil_bgc_model, ch4_substrate, kaps, kaps_4pool, q10_soil, sorp,           &
-    n_inorg_turnover, diff_n_pft, tau_resp, tau_lit, bio_hum_CN, l_layeredC,   &
+    soil_bgc_model, ch4_substrate, kaps, kaps_4pool, q10_soil, sorp, sorp_pl,  &
+    n_inorg_turnover, diff_n_pft, tau_resp, tau_lit, bio_hum_CN, bio_hum_CP,   &
+    l_cp_r, w_cp_r, r_cp_r,                                                    &
+    ps_in_max, ps_or_max, npr_soil, a_root, fpl, k_org_sorp, k_org_desorp,     &
+    k_in_sorp, k_in_desorp, l_layeredC,                                        &
     l_q10, l_soil_resp_lev2, l_ch4_interactive, l_ch4_tlayered, l_ch4_microbe, &
     cs_decomp_soil_moist_func,                                                 &
     t0_ch4, const_ch4_cs, const_ch4_npp, const_ch4_resps, q10_ch4_cs,          &
@@ -736,7 +767,49 @@ CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
 WRITE(lineBuffer, *) ' sorp = ', sorp
 CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
 
+WRITE(lineBuffer, *) ' sorp_pl = ', sorp_pl
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
 WRITE(lineBuffer, *) ' bio_hum_CN = ', bio_hum_CN
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' bio_hum_CP = ', bio_hum_CP
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' l_cp_r = ', l_cp_r
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' r_cp_r = ', r_cp_r
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' w_cp_r = ', w_cp_r
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' ps_in_max = ', ps_in_max
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' ps_or_max = ', ps_or_max
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' npr_soil = ', npr_soil
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' a_root = ', a_root
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' fpl  = ', fpl
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' k_org_sorp = ', k_org_sorp
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' k_org_desorp = ', k_org_desorp
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' k_in_sorp = ', k_in_sorp
+CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
+
+WRITE(lineBuffer, *) ' k_in_desorp = ', k_in_desorp
 CALL jules_print('jules_soil_biogeochem_mod', lineBuffer)
 
 WRITE(lineBuffer, *) ' n_inorg_turnover = ', n_inorg_turnover
@@ -873,7 +946,7 @@ CHARACTER(LEN=errormessagelength) :: iomessage
 ! set number of each type of variable in my_namelist type
 INTEGER, PARAMETER :: no_of_types = 3
 INTEGER, PARAMETER :: n_int = 3
-INTEGER, PARAMETER :: n_real = 30 + 4
+INTEGER, PARAMETER :: n_real = 37 + 4 + 18 + 18 + 18 + 18 + 18 + 18 + 18 !30 + 4
 INTEGER, PARAMETER :: n_log = 8
 
 TYPE :: my_namelist
@@ -887,6 +960,20 @@ TYPE :: my_namelist
   REAL(KIND=real_jlslsm) :: fsthsat_cs_decomp_opt1
   REAL(KIND=real_jlslsm) :: sorp
   REAL(KIND=real_jlslsm) :: bio_hum_cn
+  REAL(KIND=real_jlslsm) :: sorp_pl
+  REAL(KIND=real_jlslsm) :: bio_hum_cp(18)
+  REAL(KIND=real_jlslsm) :: l_cp_r(18)
+  REAL(KIND=real_jlslsm) :: w_cp_r(18)
+  REAL(KIND=real_jlslsm) :: r_cp_r(18)
+  REAL(KIND=real_jlslsm) :: ps_in_max(18)
+  REAL(KIND=real_jlslsm) :: ps_or_max(18)
+  REAL(KIND=real_jlslsm) :: npr_soil
+  REAL(KIND=real_jlslsm) :: a_root
+  REAL(KIND=real_jlslsm) :: fpl
+  REAL(KIND=real_jlslsm) :: k_org_sorp
+  REAL(KIND=real_jlslsm) :: k_org_desorp
+  REAL(KIND=real_jlslsm) :: k_in_sorp
+  REAL(KIND=real_jlslsm) :: k_in_desorp
   REAL(KIND=real_jlslsm) :: n_inorg_turnover
   REAL(KIND=real_jlslsm) :: tau_resp
   REAL(KIND=real_jlslsm) :: tau_lit
@@ -949,6 +1036,20 @@ IF (mype == 0) THEN
   my_nml % sorp              = sorp
   my_nml % bio_hum_cn        = bio_hum_cn
   my_nml % n_inorg_turnover  = n_inorg_turnover
+  my_nml % sorp_pl           = sorp_pl
+  my_nml % bio_hum_cp        = bio_hum_cp
+  my_nml % l_cp_r            = l_cp_r
+  my_nml % w_cp_r            = w_cp_r
+  my_nml % r_cp_r            = r_cp_r
+  my_nml % ps_in_max         = ps_in_max
+  my_nml % ps_or_max         = ps_or_max
+  my_nml % npr_soil          = npr_soil
+  my_nml % a_root            = a_root
+  my_nml % fpl               = fpl
+  my_nml % k_org_sorp        = k_org_sorp
+  my_nml % k_org_desorp      = k_org_desorp
+  my_nml % k_in_sorp         = k_in_sorp
+  my_nml % k_in_desorp       = k_in_desorp
   my_nml % tau_resp          = tau_resp
   my_nml % tau_lit           = tau_lit
   my_nml % tau_ch4           = tau_ch4

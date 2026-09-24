@@ -86,7 +86,8 @@ SUBROUTINE surf_couple_extra(                                                  &
    dhf_surf_minus_soil,                                                        &
    land_sea_mask,                                                              &
    !TYPES containing field data (IN OUT)
-   crop_vars,psparms,toppdm,fire_vars,ainfo,trif_vars,soilecosse,urban_param,  &
+   crop_vars,psparms,toppdm,fire_vars,ainfo,trif_vars,                         &
+   soilecosse, urban_param,                                                    &
    progs,trifctltype,coast,jules_vars,                                         &
    fluxes,                                                                     &
    lake_vars,                                                                  &
@@ -794,6 +795,9 @@ CASE ( jules )
       toppdm%fch4_wetl_soilt, toppdm%fch4_wetl_cs_soilt,                       &
       toppdm%fch4_wetl_npp_soilt, toppdm%fch4_wetl_resps_soilt,                &
       trif_vars%n_leach_soilt)
+      ! P vars needed for P leaching GL CNP_PHOS Add whrn Hydrol science done
+      !progs%p_inorg_avail_pft, progs%p_inorg_soilt_lyrs,                       &
+      !trif_vars%p_leach_soilt, trif_vars%p_leach_gb_acc, trif_vars%smcl_gb
 
 
     DEALLOCATE(ls_graup_wtrac)
@@ -1129,7 +1133,7 @@ CASE ( jules )
           trifctltype%g_leaf_phen_pft,trifctltype%lai_phen_pft,                &
           trifctltype%g_leaf_dr_out_pft, trifctltype%npp_dr_out_pft,           &
           trifctltype%resp_w_dr_out_pft, qbase_l_soilt,                        &
-          psparms%sthf_soilt, psparms%sthu_soilt,                              &
+          psparms%sthf_soilt, psparms%sthu_soilt, psparms%stype_soilt,         &
           w_flux_soilt, progs%t_soil_soilt,progs%cs_pool_soilt,                &
           progs%frac_c_label_pool_soilt,                                       &
           !New arguments replacing USE statements
@@ -1145,6 +1149,15 @@ CASE ( jules )
           progs%frac_past_prev_gb, progs%frac_biocrop_prev_gb,                 &
           progs%n_inorg_gb, progs%n_inorg_soilt_lyrs,                          &
           progs%n_inorg_avail_pft, progs%ns_pool_gb,                           &
+          ! P prognostics
+          progs%ps_org_pool,                                                   &
+          progs%p_inorg_gb, progs%p_inorg_soilt_lyrs,                          &
+          progs%p_inorg_avail_pft, progs%ps_pool_gb,                           &
+          progs%ps_parent_gb, progs%ps_in_sorbed_pool_gb,                      &
+          progs%ps_or_sorbed_pool_gb,                                          &
+          progs%ps_occ_pool_gb,                                                &
+          progs%plant_p_pool_gb,                                               &
+          ! End P prognostics
           progs%triffid_co2_gb, progs%t_soil_soilt_acc,                        &
           progs%years_since_harvest,                                           &
           ! p_s_parms (IN)

@@ -898,7 +898,8 @@ CALL surf_couple_extra(                                                        &
   !OUT
   dhf_surf_minus_soil, land_sea_mask,                                          &
   !TYPES containing field data (IN OUT)
-  crop_vars,psparms,toppdm,fire_vars,ainfo,trif_vars,soilecosse, urban_param,  &
+  crop_vars,psparms,toppdm,fire_vars,ainfo,trif_vars,                          &
+  soilecosse, urban_param,                                                     &
   progs,trifctltype,coast,jules_vars,                                          &
   fluxes,                                                                      &
   lake_vars,                                                                   &
