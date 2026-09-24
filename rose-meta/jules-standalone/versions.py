@@ -45,15 +45,19 @@ from .version80_81 import *
 from .version81_82 import *
 
 
-class vnYY_txxxx(MacroUpgrade):
+class vn82_t1307(MacroUpgrade):
 
-    """Upgrade macro from JULES by Author"""
+    """Upgrade macro from JULES by Eddy Robertson"""
 
-    BEFORE_TAG = "vnY.Y"
-    AFTER_TAG = "vnY.Y_txxxx"
-
-    def upgrade(self, config, meta_config=None):
+    BEFORE_TAG = "vn8.2"
+    AFTER_TAG = "vn8.2_t1307"
+    
+    def upgrade(self,config, meta_config=None):
         """Upgrade a JULES runtime app configuration."""
 
         # Add settings
+        self.add_setting(config, ["namelist:jules_soil",
+                                  "l_satcon_decay"], ".false.")
+        self.add_setting(config, ["namelist:jules_soil",
+                                  "f_satcon"], "1.0")
         return config, self.reports
