@@ -65,7 +65,7 @@ USE jules_rivers_mod, ONLY: np_rivers
 USE jules_hydrology_mod, ONLY: l_top
 
 USE jules_vegetation_mod, ONLY: l_phenol, l_triffid, frac_min, l_crop,         &
-                                l_recon, l_nitrogen, l_croprotate
+                                l_recon, l_nitrogen, l_croprotate !P_Switch l_phosphorus
 
 USE jules_irrig_mod, ONLY: l_irrig_dmd, l_irrig_limit
 
@@ -78,6 +78,7 @@ USE jules_soil_biogeochem_mod, ONLY:                                           &
   soil_model_ecosse, soil_model_4pool,                                         &
   ! imported scalar variables
   bio_hum_cn, l_layeredC, soil_bgc_model
+  ! CNP JSBGC bio_hum_cp
 
 USE jules_surface_mod, ONLY: l_elev_land_ice, l_flake_model, l_aggregate
 
@@ -206,6 +207,10 @@ REAL ::                                                                        &
     ! Downward water flux at bottom of each soil layer (kg m-2 s-1).
     ! Used as a dummy argument.
 
+! Trying this to see if it makes the Cannot Open problem go away.
+REAL :: st_real ! The number of soil type
+INTEGER :: st_int !Needs to be an integer here too, yet initialised as REAL?
+
 INTEGER :: nstep_dummy        ! Used as a dummy argument.
 LOGICAL :: l_run_model_dummy  ! Used as a dummy argument.
 
@@ -216,6 +221,7 @@ INTEGER :: n_counted ! Counter for assigning soil_pts
 INTEGER :: year, month, day, TIME
 
 INTEGER :: ERROR  ! Error indicator
+
 
 !-----------------------------------------------------------------------------
 
@@ -475,6 +481,24 @@ IF (l_croprotate) THEN
   END IF
 END IF
 
+! Add stype_soilt as it is done in CNP_FAR
+! It needs to be corrected by making the loop over land_pnts an external one for DO n = 1, dim_cslayer
+
+DO l = 1, land_pts
+  !!! GL CNP_PHOS Something is missing here
+  st_real = psparms%stype_soilt(l,1,1)
+  st_int = INT(st_real)
+  !!! GL CNP_PHOS This should be a warning but doing it to check everything else
+  IF (st_int < 1) THEN 
+    st_int = 1
+  END IF
+END DO
+
+IF ( ANY( psparms%stype_soilt(:,1,1) <= 0.0 ) ) THEN
+  PRINT*, "init_soil, stype_soilt: ", psparms%stype_soilt(:,1,1)
+  STOP
+END IF
+
 !-----------------------------------------------------------------------------
 ! Initialise soil bio and hum pools from soil carbon.
 !-----------------------------------------------------------------------------
@@ -487,6 +511,17 @@ IF ( soil_bgc_model == soil_model_4pool ) THEN
     progs%ns_pool_gb(:,n,4) = progs%cs_pool_soilt(:,m,n,4) / bio_hum_cn
   END DO
 END IF
+
+! This part should also be combined with ns_pool_gb
+!-----------------------------------------------------------------------------
+! Initialise soil phosphorus bio and hum pools from soil carbon
+!-----------------------------------------------------------------------------
+!! CNP Add once JSBGC done IF ( soil_bgc_model == soil_model_4pool ) THEN
+!  DO n = 1,dim_cslayer
+!    progs%ps_org_pool(:,n,3) = progs%cs_pool_soilt(:,m,n,3) / bio_hum_cp(st)
+!    progs%ps_org_pool(:,n,4) = progs%cs_pool_soilt(:,m,n,4) / bio_hum_cp(st)
+!  END DO
+!END IF
 
 !-----------------------------------------------------------------------------
 ! Reconfigure ECOSSE.
@@ -829,7 +864,7 @@ IF ( l_daily_disagg .AND. precip_disagg_method > 1 ) THEN
   CALL RANDOM_SEED( put = progs%seed_rain )
 END IF
 
-IF (l_nitrogen .AND. l_layeredC) THEN
+IF (l_nitrogen .AND. l_layeredC) THEN !l_phosphorus needs adding for P_Switch
   IF ( soil_bgc_model == soil_model_4pool ) THEN
     ! Initialise n_inorg_avail_pft so it can be leached before the first call
     ! to TRIFFID.
