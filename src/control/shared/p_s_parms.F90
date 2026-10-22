@@ -97,8 +97,9 @@ TYPE :: psparms_data_type
   REAL(KIND=real_jlslsm), ALLOCATABLE :: soil_ph_soilt(:,:,:)
     ! Soil pH, defined on soil layers.
   ! P Vars
-  REAL(KIND=real_jlslsm), ALLOCATABLE :: stype_soilt(:,:,:)
+  INT(KIND=int_64), ALLOCATABLE :: stype_soilt(:,:,:)
     ! Soil pH, defined on soil layers. - ported from CNP_FAR
+    ! GL - Not sure in KIND should be int 32 or 64?
 END TYPE
 
 !================================
@@ -188,7 +189,7 @@ psparms_data%smvccl_soilt(:,:,:) = 0.0
 psparms_data%smvcwt_soilt(:,:,:) = 0.0
 psparms_data%smvcst_soilt(:,:,:) = 0.0
 psparms_data%clay_soilt(:,:,:)   = 0.0
-psparms_data%stype_soilt(:,:,:) = 0.0
+psparms_data%stype_soilt(:,:,:) = 0
 
 ! Plant and soil parameters
 ALLOCATE(psparms_data%albsoil_soilt(land_pts,nsoilt))
